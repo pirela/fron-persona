@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const dev = true;
+const dev = false;
 const url = dev
   ? "http://localhost:4000/"
-  : "https://test-sequelize-ekfa1vjq3.vercel.app/";
+  : "https://api-test-personas.vercel.app/";
 
 export function getAxio(isPublic = true) {
   return axios.create({
