@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -12,11 +13,6 @@ import { IonReactRouter } from "@ionic/react-router";
 
 import searchP from "./assets/svg/searchPerson.svg";
 import { people, documentText } from "ionicons/icons";
-
-import Acerca from "./pages/acerca/Acerca";
-import Busqueda from "./pages/busqueda/Busqueda";
-import Persona from "./pages/personas/Persona";
-import PersonaDetail from "./pages/persona-detail/PersonaDetail";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -37,44 +33,53 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/persona">
-            <Persona />
-          </Route>
-          <Route path="/persona-detail/:idPersona">
-            <PersonaDetail />
-          </Route>
-          <Route exact path="/busqueda">
-            <Busqueda />
-          </Route>
-          <Route path="/acerca">
-            <Acerca />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/persona" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="persona" href="/persona">
-            <IonIcon icon={people} />
-            <IonLabel>Personas</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="busqueda" href="/busqueda">
-            <IonIcon icon={searchP} />
-            <IonLabel>Buscar</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="acerca" href="/acerca">
-            <IonIcon icon={documentText} />
-            <IonLabel>Acerca</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
+const Acerca = React.lazy(() => import("./pages/acerca/Acerca"));
+const Busqueda = React.lazy(() => import("./pages/busqueda/Busqueda"));
+const Persona = React.lazy(() => import("./pages/personas/Persona"));
+const PersonaDetail = React.lazy(
+  () => import("./pages/persona-detail/PersonaDetail")
 );
 
-export default App;
+export default function App() {
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Suspense fallback={null}>
+              <Route exact path="/persona">
+                <Persona />
+              </Route>
+              <Route path="/persona-detail/:idPersona">
+                <PersonaDetail />
+              </Route>
+              <Route exact path="/busqueda">
+                <Busqueda />
+              </Route>
+              <Route path="/acerca">
+                <Acerca />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/persona" />
+              </Route>
+            </Suspense>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="persona" href="/persona">
+              <IonIcon icon={people} />
+              <IonLabel>Personas</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="busqueda" href="/busqueda">
+              <IonIcon icon={searchP} />
+              <IonLabel>Buscar</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="acerca" href="/acerca">
+              <IonIcon icon={documentText} />
+              <IonLabel>Acerca</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+}

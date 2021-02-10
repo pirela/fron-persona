@@ -10,24 +10,25 @@ import {
   IonRow,
 } from "@ionic/react";
 
-import { eye, trash } from "ionicons/icons";
+import { trash } from "ionicons/icons";
 
 import css from "./Card.module.css";
 
-interface persona {
-  id: string;
-  img: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  identificacion: string;
-  handleClick: Function;
-  handleView: Function;
-  handleDelete: Function;
-}
+import TypePersona from "../../Type/Persona";
 
 interface dataPersona {
-  data: persona[];
+  data: TypePersona[];
+}
+
+interface TypeCardAbout {
+  data: TypeAbout[];
+  title: string;
+}
+
+interface TypeAbout {
+  url: string;
+  href: boolean;
+  logo: string;
 }
 
 const CardUser = ({ data }: dataPersona) => {
@@ -38,13 +39,12 @@ const CardUser = ({ data }: dataPersona) => {
           id,
           img,
           nombre,
-          email,
-          handleView,
+          email, //handleView,
           handleDelete,
           handleClick,
           identificacion,
           apellido,
-        }: persona) => (
+        }: TypePersona) => (
           <IonCard className={css.CardUser} key={id}>
             <IonGrid className={css.CardUserGrid}>
               <IonRow>
@@ -54,25 +54,25 @@ const CardUser = ({ data }: dataPersona) => {
                 <IonCol
                   size="7"
                   className={css.CardUserTxt}
-                  onClick={() => handleClick(id)}
+                  onClick={() => handleClick && handleClick(id)}
                 >
                   <div className={css.CardUserTxtName}>
                     {`${nombre} ${apellido}`}
                   </div>
-                  <div className={css.CardUserTxtInfo}>
-                    {`${identificacion}`}
-                  </div>
+                  <div
+                    className={css.CardUserTxtInfo}
+                  >{`${identificacion}`}</div>
                   <div className={css.CardUserTxtInfo}>{`${email}`}</div>
                 </IonCol>
                 <IonCol size="2" className={css.CardUserIconCenter}>
-                  <IonIcon
+                  {/*<IonIcon
                     className={css.CardUserIcon}
                     onClick={() => handleView(id)}
                     icon={eye}
-                  />
+                  />*/}
                   <IonIcon
                     className={css.CardUserIcon}
-                    onClick={() => handleDelete(id)}
+                    onClick={() => handleDelete && handleDelete(id)}
                     icon={trash}
                   />
                 </IonCol>
@@ -85,7 +85,7 @@ const CardUser = ({ data }: dataPersona) => {
   );
 };
 
-const CardAbout = ({ title, data }: any) => {
+const CardAbout = ({ title, data }: TypeCardAbout) => {
   return (
     <IonCard style={{ background: "#fff" }}>
       <IonCardHeader>
@@ -93,7 +93,7 @@ const CardAbout = ({ title, data }: any) => {
       </IonCardHeader>
       <IonCardContent>
         <IonGrid>
-          {data.map((element: any) => {
+          {data.map((element: TypeAbout) => {
             return (
               <IonRow>
                 <IonCol

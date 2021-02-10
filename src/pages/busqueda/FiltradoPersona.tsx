@@ -12,7 +12,12 @@ import cardId from "../../assets/svg/cardId.svg";
 
 import { InputIcon } from "../../components/Input/Input";
 
-const FiltradoPersona = ({ handleClick }: any) => {
+interface TypeFiltradoPersona {
+  handleClick: Function;
+  clearData: Function;
+}
+
+const FiltradoPersona = ({ handleClick, clearData }: TypeFiltradoPersona) => {
   const [identificacion, setIdentificacion] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -25,6 +30,7 @@ const FiltradoPersona = ({ handleClick }: any) => {
     setApellido("");
     setEmail("");
     setGenero("");
+    clearData();
   };
 
   return (
@@ -70,7 +76,7 @@ const FiltradoPersona = ({ handleClick }: any) => {
       <IonButton
         onClick={() =>
           handleClick &&
-          handleClick({ identificacion, nombre, apellido, email })
+          handleClick({ identificacion, nombre, apellido, email, genero })
         }
         color="primary"
       >

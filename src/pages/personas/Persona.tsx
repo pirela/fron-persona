@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import {
@@ -6,6 +6,7 @@ import {
   IonButton,
   IonContent,
   IonHeader,
+  IonLoading,
   IonPage,
   IonToast,
 } from "@ionic/react";
@@ -16,12 +17,19 @@ import { CardUser } from "../../components/Card/Card";
 
 import { getPersonaLimit, deletePersona } from "../../services/persona";
 
+import TabContext from "../../context/TabContext";
+
 import css from "./Persona.module.css";
+
+import TypePersona from "../../Type/Persona";
 
 const Persona: React.FC = () => {
   const [dataPersonas, setDataPersona] = useState<any>([]);
   const [showAlert, setShowAlert] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { tab, setTab } = useContext<any>(TabContext);
 
   const [toastTxt, setToastTxt] = useState("");
 
@@ -41,8 +49,9 @@ const Persona: React.FC = () => {
   };
 
   const getDataPersona = async (cantidad: number) => {
+    setLoading(true);
     const { data } = await getPersonaLimit(cantidad);
-    const newData = data.reduce((acc: any[], persona: any) => {
+    const newData = data.reduce((acc: TypePersona[], persona: TypePersona) => {
       const newPersona = JSON.parse(JSON.stringify(persona));
       acc.push({
         ...newPersona,
@@ -56,13 +65,15 @@ const Persona: React.FC = () => {
       return acc;
     }, []);
     setDataPersona([...dataPersonas, ...newData]);
+    setLoading(false);
   };
 
   const eliminarPersona = async () => {
+    setLoading(true);
     const { data } = await deletePersona(selectedIdPersona);
     setSelectedIdPersona("");
     const i = dataPersonas.findIndex(
-      (persona: any) => persona.id === selectedIdPersona
+      (persona: TypePersona) => persona.id === selectedIdPersona
     );
     const newDataPersona = dataPersonas;
     newDataPersona.splice(i, 1);
@@ -71,11 +82,14 @@ const Persona: React.FC = () => {
       setToastTxt("La persona ha sido eliminada");
       setShowToast(true);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    getDataPersona(0);
-  }, []);
+    if (tab === "personas") {
+      getDataPersona(0);
+    }
+  }, [tab]);
 
   return (
     <IonPage>
@@ -109,18 +123,30 @@ const Persona: React.FC = () => {
         ]}
       />
       <IonHeader>
-        <Toolbar title="Persona" icons={dataIcon} />
+        <Toolbar title="Personas" icons={dataIcon} />
       </IonHeader>
       <IonContent fullscreen>
-        <CardUser data={dataPersonas} />
-        <div className={css.PersonaCenterBtn}>
-          <IonButton
-            onClick={() => getDataPersona(dataPersonas.length)}
-            color="primary"
-          >
-            Más
-          </IonButton>
-        </div>
+        {loading && (
+          <IonLoading
+            cssClass="my-custom-class"
+            isOpen={loading}
+            onDidDismiss={() => setLoading(false)}
+            message={"Please wait..."}
+          />
+        )}
+        {!loading && (
+          <>
+            <CardUser data={dataPersonas} />
+            <div className={css.PersonaCenterBtn}>
+              <IonButton
+                onClick={() => getDataPersona(dataPersonas.length)}
+                color="primary"
+              >
+                Más
+              </IonButton>
+            </div>
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

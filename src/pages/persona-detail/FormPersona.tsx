@@ -17,7 +17,17 @@ import { getPersonaById } from "../../services/persona";
 
 import css from "./FormPersona.module.css";
 
-const FormPersona = ({ handleClick, clearForm, idPersona }: any) => {
+interface TypeFormPersona {
+  handleClick: Function;
+  clearForm: boolean;
+  idPersona: string;
+}
+
+const FormPersona = ({
+  handleClick,
+  clearForm,
+  idPersona,
+}: TypeFormPersona) => {
   const [id, setId] = useState("");
   const [identificacion, setIdentificacion] = useState("");
   const [nombre, setNombre] = useState("");
@@ -110,7 +120,7 @@ const FormPersona = ({ handleClick, clearForm, idPersona }: any) => {
           }
           color="primary"
         >
-          Actualizar
+          {idPersona === "0" ? "Crear" : "Actualizar"}
         </IonButton>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {
   IonAlert,
   IonContent,
   IonHeader,
+  IonLoading,
   IonPage,
   IonToast,
 } from "@ionic/react";
@@ -16,13 +17,16 @@ import FiltradoPersona from "./FiltradoPersona";
 
 import { deletePersona, postSearchPersona } from "../../services/persona";
 
+import TypePersona from "../../Type/Persona";
+
 const Busqueda: React.FC = () => {
-  const [dataPersonas, setDataPersonas] = useState<any>([]);
+  const [dataPersonas, setDataPersonas] = useState<TypePersona[]>([]);
   const [selectedIdPersona, setSelectedIdPersona] = useState("");
   const [toastTxt, setToastTxt] = useState("");
 
   const [showAlert, setShowAlert] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -34,7 +38,7 @@ const Busqueda: React.FC = () => {
     const { data } = await deletePersona(selectedIdPersona);
     setSelectedIdPersona("");
     const i = dataPersonas.findIndex(
-      (persona: any) => persona.id === selectedIdPersona
+      (persona: TypePersona) => persona.id === selectedIdPersona
     );
     const newDataPersona = dataPersonas;
     newDataPersona.splice(i, 1);
@@ -45,9 +49,10 @@ const Busqueda: React.FC = () => {
     }
   };
 
-  const handleClick = async (values: any) => {
+  const handleClick = async (values: TypePersona) => {
+    setLoading(true);
     const { data } = await postSearchPersona(values);
-    const newData = data.reduce((acc: any[], persona: any) => {
+    const newData = data.reduce((acc: TypePersona[], persona: TypePersona) => {
       const newPersona = JSON.parse(JSON.stringify(persona));
       acc.push({
         ...newPersona,
@@ -62,8 +67,15 @@ const Busqueda: React.FC = () => {
     }, []);
 
     setDataPersonas(newData);
-    console.info("res,", data);
+    setLoading(false);
   };
+
+  const clearData = () => {
+    setLoading(true);
+    setDataPersonas([]);
+    setLoading(false);
+  };
+
   return (
     <IonPage>
       <IonToast
@@ -99,8 +111,20 @@ const Busqueda: React.FC = () => {
         <Toolbar title="Buscador" icons={[]} />
       </IonHeader>
       <IonContent fullscreen>
-        <FiltradoPersona handleClick={handleClick} />
-        <CardUser data={dataPersonas} />
+        {loading && (
+          <IonLoading
+            cssClass="my-custom-class"
+            isOpen={loading}
+            onDidDismiss={() => setLoading(false)}
+            message={"Please wait..."}
+          />
+        )}
+
+        <FiltradoPersona
+          handleClick={handleClick}
+          clearData={() => clearData()}
+        />
+        {!loading && <CardUser data={dataPersonas} />}
       </IonContent>
     </IonPage>
   );

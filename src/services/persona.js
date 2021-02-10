@@ -34,6 +34,6 @@ export function putPersona(values) {
 
 export function deletePersona(idPersona) {
   return getAxio()
-    .delete(`${path}/${idPersona}`)
+    .delete(`${path}${idPersona}`)
     .then((res) => res.data);
 }

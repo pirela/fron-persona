@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 
-import { IonContent, IonHeader, IonPage } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonLoading,
+  IonPage,
+  IonToast,
+} from "@ionic/react";
 
 import lineasSvg from "../../assets/svg/wave.svg";
 
@@ -12,12 +18,18 @@ import css from "./PersonaDetail.module.css";
 
 import { postPersona, putPersona } from "../../services/persona";
 
+import TypePersona from "../../Type/Persona";
+
 const Persona: React.FC = () => {
   const [clearForm, setClearForm] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastTxt, setToastTxt] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { idPersona }: { idPersona: string } = useParams();
 
-  const crearPersona = async (values: any) => {
+  const crearPersona = async (values: TypePersona) => {
+    setLoading(true);
     const newValues = {
       ...values,
       img:
@@ -30,22 +42,41 @@ const Persona: React.FC = () => {
             }.jpg`,
     };
     const { data } = await postPersona(newValues);
-    console.info("crear", data);
     setClearForm(!clearForm);
+    setToastTxt("Persona agregada exitosamente");
+    setLoading(false);
+    setShowToast(true);
   };
 
-  const actualizarPersona = async (values: any) => {
+  const actualizarPersona = async (values: TypePersona) => {
+    setLoading(true);
     const { data } = await putPersona(values);
-    console.info("actualizar", data);
-    setClearForm(!clearForm);
+    setToastTxt("Persona modificada exitosamente");
+    setLoading(false);
+    setShowToast(true);
   };
 
   return (
     <IonPage>
+      <IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message={toastTxt}
+        duration={3000}
+        position={"top"}
+      />
       <IonHeader>
         <Toolbar title="DETALLE PERSONA" icons={[]} showBackButton />
       </IonHeader>
       <IonContent fullscreen>
+        {loading && (
+          <IonLoading
+            cssClass="my-custom-class"
+            isOpen={loading}
+            onDidDismiss={() => setLoading(false)}
+            message={"Please wait..."}
+          />
+        )}
         <img src={lineasSvg} alt="a" className={css.PersonaDetailSvg} />
         <FormPersona
           clearForm={clearForm}
