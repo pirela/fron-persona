@@ -32,9 +32,9 @@ const Toolbar = ({
       )}
       {icons.length >= 1 && (
         <IonButtons slot="primary">
-          {icons.map((itemIcon: TypeIcons, index: number) => (
-            <IonButton onClick={() => itemIcon.handleClick} key={index}>
-              <IonIcon slot="icon-only" icon={itemIcon.icon} />
+          {icons.map(({ handleClick, icon }: TypeIcons, index: number) => (
+            <IonButton onClick={() => handleClick()} key={index}>
+              <IonIcon slot="icon-only" icon={icon} />
             </IonButton>
           ))}
         </IonButtons>
