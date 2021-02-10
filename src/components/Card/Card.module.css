@@ -1,0 +1,40 @@
+.CardUser {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 3px 3px 7px #007aff29;
+  margin-top: 32px;
+}
+
+.CardUserGrid {
+  padding: 8px 16px;
+}
+
+.CardUserAvatar {
+  height: 25vw;
+  border-radius: 50px;
+  border: solid 2px #2979fc;
+}
+
+.CardUserTxt {
+  padding: 5px 12px;
+}
+
+.CardUserTxtName {
+  font-size: 14px;
+  color: #007aff;
+  font-weight: 600;
+}
+
+.CardUserTxtInfo {
+  color: #c5c6c8;
+  font-size: 14px;
+}
+
+.CardUserIcon {
+  font-size: 24px;
+}
+
+.CardUserIconCenter {
+  text-align: center;
+  margin: auto;
+}

@@ -1,0 +1,11 @@
+.FormPersonaAvatar {
+  margin: 5vh 0px;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  border: solid 5px #007aff;
+  box-shadow: -3px -3px 9px #02020239;
+}
+.FormPersonaCenter {
+  text-align: center;
+}
