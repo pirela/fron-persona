@@ -17,7 +17,12 @@ interface TypeInputStacked {
   setValue: Function;
   placeholder: string;
 }
-
+/**
+ *
+ * @param param0 recibimos el valor la funcion para setear el valor slot (si colocar al inicio o final el icono)
+ * placeholder y el icono
+ * componente para mostrar un Input con icono
+ */
 const InputIcon = ({
   value,
   setValue,
@@ -38,7 +43,11 @@ const InputIcon = ({
     </div>
   );
 };
-
+/**
+ *
+ * @param param0  recibimos el valor la funcion para setear el valor y el placeholder
+ * componente para mostrar unInput sin icono
+ */
 const InputStacked = ({ value, setValue, placeholder }: TypeInputStacked) => {
   return (
     <div>
@@ -53,4 +62,5 @@ const InputStacked = ({ value, setValue, placeholder }: TypeInputStacked) => {
   );
 };
 
+//exportamos los componente
 export { InputIcon, InputStacked };

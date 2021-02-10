@@ -20,6 +20,7 @@ import { deletePersona, postSearchPersona } from "../../services/persona";
 import TypePersona from "../../Type/Persona";
 
 const Busqueda: React.FC = () => {
+  //valores del state
   const [dataPersonas, setDataPersonas] = useState<TypePersona[]>([]);
   const [selectedIdPersona, setSelectedIdPersona] = useState("");
   const [toastTxt, setToastTxt] = useState("");
@@ -29,11 +30,12 @@ const Busqueda: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
-
+  //funcion para ir al detalle de la persona
   const irDetallePersona = async (idPersona: string) => {
     history.push(`/persona-detail/${idPersona}`);
   };
 
+  //funcion para eliminar persona
   const eliminarPersona = async () => {
     const { data } = await deletePersona(selectedIdPersona);
     setSelectedIdPersona("");
@@ -49,6 +51,11 @@ const Busqueda: React.FC = () => {
     }
   };
 
+    /**
+     * handleClick parametro los valores para filtrar 
+     * consultamos al endpoint y enviamos los parametros
+     * los resultamos los iteramos para asignar los nuevos atributos handleVie, handleDelete y handleClick
+     */
   const handleClick = async (values: TypePersona) => {
     setLoading(true);
     const { data } = await postSearchPersona(values);
@@ -70,6 +77,7 @@ const Busqueda: React.FC = () => {
     setLoading(false);
   };
 
+  //limpiamos la data de los resultados en el state
   const clearData = () => {
     setLoading(true);
     setDataPersonas([]);

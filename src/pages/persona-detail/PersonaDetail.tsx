@@ -21,13 +21,18 @@ import { postPersona, putPersona } from "../../services/persona";
 import TypePersona from "../../Type/Persona";
 
 const Persona: React.FC = () => {
+  //valores del state
   const [clearForm, setClearForm] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastTxt, setToastTxt] = useState("");
   const [loading, setLoading] = useState(false);
-
+  //tomamos el valor que nos envian por la URL para obtener el id de la persona
   const { idPersona }: { idPersona: string } = useParams();
 
+  /**
+   * funcion para crear una nueva persona verificamos su genero para asignar una img aleatoria
+   * limpiamos el formulario y mostramos el mensaje
+   */
   const crearPersona = async (values: TypePersona) => {
     setLoading(true);
     const newValues = {
@@ -48,6 +53,10 @@ const Persona: React.FC = () => {
     setShowToast(true);
   };
 
+  
+  /**
+   * funcion para actualizar los datos una nueva persona y mostramos el mensaje 
+   */
   const actualizarPersona = async (values: TypePersona) => {
     setLoading(true);
     const { data } = await putPersona(values);

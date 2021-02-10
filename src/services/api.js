@@ -1,5 +1,7 @@
 import axios from "axios";
 
+//creacion del axios y valores de configuracion
+
 const dev = false;
 const url = dev
   ? "http://localhost:4000/"

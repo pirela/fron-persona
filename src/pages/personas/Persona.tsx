@@ -24,30 +24,35 @@ import css from "./Persona.module.css";
 import TypePersona from "../../Type/Persona";
 
 const Persona: React.FC = () => {
+  //Valores que usaremos en el state
   const [dataPersonas, setDataPersona] = useState<any>([]);
   const [showAlert, setShowAlert] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const { tab, setTab } = useContext<any>(TabContext);
-
   const [toastTxt, setToastTxt] = useState("");
-
   const [selectedIdPersona, setSelectedIdPersona] = useState("");
 
+  //valores del contexto,
+  const { tab } = useContext<any>(TabContext);
+  //historiy para la navegacion
   const history = useHistory();
-
+  //valores para el componente del toolbar icono y handleClcik
   const dataIcon = [
     {
       icon: addCircle,
       handleClick: () => history.push(`/persona-detail/0`),
     },
   ];
-
+  //funcion para el navegar a la ruta persona.detail. Pasamos como parametro el id del usuario q consultaremos
   const irDetallePersona = async (idPersona: string) => {
     history.push(`/persona-detail/${idPersona}`);
   };
 
+  /**
+   * funcion para la consulta de las personas, el cual maneja un offset y limit por default de 5
+   * se consulta la dara y la recorremos creamos un nuevo array para a cada valor inglesarle los nuevos atributos
+   * handleView, handleDelete y handleClick
+   * */
   const getDataPersona = async (cantidad: number) => {
     setLoading(true);
     const { data } = await getPersonaLimit(cantidad);
@@ -68,6 +73,10 @@ const Persona: React.FC = () => {
     setLoading(false);
   };
 
+  /**
+   * funcion para eliminar una persona, tomamos el id, lo pasamos el endpoint, esperamos su respuesta
+   * luego lo eliminar en la data que ya tenemos en el front y mostramos el mensaje de que ha sido eliminado
+   */
   const eliminarPersona = async () => {
     setLoading(true);
     const { data } = await deletePersona(selectedIdPersona);
@@ -85,6 +94,7 @@ const Persona: React.FC = () => {
     setLoading(false);
   };
 
+  // utilizamos el useEffect para que cada q entre a la pagina se refresque la data automaticamente
   useEffect(() => {
     if (tab === "personas") {
       getDataPersona(0);

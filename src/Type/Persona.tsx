@@ -1,3 +1,4 @@
+//typeScript de personas el cual se utiliza en varios modulo
 export default interface TypePersona {
   id?: string;
   img: string;

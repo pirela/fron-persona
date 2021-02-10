@@ -17,13 +17,16 @@ interface TypeFiltradoPersona {
   clearData: Function;
 }
 
+//Componente para el filtrado de la persona
 const FiltradoPersona = ({ handleClick, clearData }: TypeFiltradoPersona) => {
+  //valores del state
   const [identificacion, setIdentificacion] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [genero, setGenero] = useState("");
 
+  //funcion para limpiar el formulario
   const resertForm = () => {
     setIdentificacion("");
     setNombre("");

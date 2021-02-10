@@ -17,7 +17,12 @@ interface typeToolbar {
   showBackButton?: boolean;
   icons?: TypeIcons[];
 }
-
+/**
+ *
+ * @param param0  recibimos el titulo los iconos a mostrar con su respectiva accion
+ * y un boolean para mostrar el boton de regresar
+ * componente que se muestra en l aparte superior de los modulos
+ */
 const Toolbar = ({
   title,
   showBackButton = false,

@@ -30,7 +30,11 @@ interface TypeAbout {
   href: boolean;
   logo: string;
 }
-
+/**
+ *
+ * @param data array de personas para iterar y mostrar los valores
+ * Componente para mostrar img, nombre, identificacion y email del usuario
+ */
 const CardUser = ({ data }: dataPersona) => {
   return (
     <div>
@@ -85,6 +89,11 @@ const CardUser = ({ data }: dataPersona) => {
   );
 };
 
+/**
+ *
+ * @param param0 recibimos el titulo y la data de About para iterar en el componente
+ * componente para mostrar una carta con un titulo e iteracion de los valores
+ */
 const CardAbout = ({ title, data }: TypeCardAbout) => {
   return (
     <IonCard style={{ background: "#fff" }}>
@@ -122,4 +131,5 @@ const CardAbout = ({ title, data }: TypeCardAbout) => {
   );
 };
 
+//exportamos los componentes
 export { CardUser, CardAbout };
