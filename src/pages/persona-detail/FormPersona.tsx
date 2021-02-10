@@ -22,12 +22,13 @@ interface TypeFormPersona {
   clearForm: boolean;
   idPersona: string;
 }
-
+//Componente para el formulario de las personas
 const FormPersona = ({
   handleClick,
   clearForm,
   idPersona,
 }: TypeFormPersona) => {
+  //valores del state
   const [id, setId] = useState("");
   const [identificacion, setIdentificacion] = useState("");
   const [nombre, setNombre] = useState("");
@@ -36,6 +37,7 @@ const FormPersona = ({
   const [genero, setGenero] = useState("");
   const [img, setImg] = useState("");
 
+  //consulta de la persona para traer todos los datos necesarios
   const getPersona = async () => {
     const { data } = await getPersonaById(idPersona);
     setId(data.id);
@@ -55,7 +57,10 @@ const FormPersona = ({
     setEmail("");
     setGenero("");
   }, [clearForm]);
-
+  
+  /* en caso de que el idPersona sea 0 no consltamos ya que es para crear una nueva persona, en caso contrario
+   *consultamos la personalbar
+   */
   useEffect(() => {
     if (idPersona !== "0") {
       getPersona();
