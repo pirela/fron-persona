@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import { IonContent, IonHeader, IonPage } from "@ionic/react";
 import { addCircle } from "ionicons/icons";
@@ -7,6 +8,8 @@ import { Toolbar } from "../../components/Toolbar/Toolbar";
 import { CardUser } from "../../components/Card/Card";
 
 const Persona: React.FC = () => {
+  const history = useHistory();
+
   const dataIcon = [
     {
       icon: addCircle,
@@ -26,10 +29,10 @@ const Persona: React.FC = () => {
           }
           name="jose pirela"
           handleClick={() => {
-            console.info("handleClick");
+            history.push("/persona-detail");
           }}
           handleView={() => {
-            console.info("handleView");
+            history.push("/persona-detail");
           }}
           handleDelete={() => {
             console.info("handleDelete");
