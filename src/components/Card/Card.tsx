@@ -15,6 +15,7 @@ import { eye, trash } from "ionicons/icons";
 import css from "./Card.module.css";
 
 interface persona {
+  id: string;
   img: string;
   nombre: string;
   apellido: string;
@@ -30,24 +31,21 @@ interface dataPersona {
 }
 
 const CardUser = ({ data }: dataPersona) => {
-  console.info("datadatadata", data);
   return (
     <div>
       {data.map(
-        (
-          {
-            img,
-            nombre,
-            email,
-            handleView,
-            handleDelete,
-            handleClick,
-            identificacion,
-            apellido,
-          }: persona,
-          index: number
-        ) => (
-          <IonCard className={css.CardUser}>
+        ({
+          id,
+          img,
+          nombre,
+          email,
+          handleView,
+          handleDelete,
+          handleClick,
+          identificacion,
+          apellido,
+        }: persona) => (
+          <IonCard className={css.CardUser} key={id}>
             <IonGrid className={css.CardUserGrid}>
               <IonRow>
                 <IonCol size={"3"} onClick={() => handleClick}>
@@ -56,7 +54,7 @@ const CardUser = ({ data }: dataPersona) => {
                 <IonCol
                   size="7"
                   className={css.CardUserTxt}
-                  onClick={() => handleClick}
+                  onClick={() => handleClick(id)}
                 >
                   <div className={css.CardUserTxtName}>
                     {`${nombre} ${apellido}`}
@@ -69,12 +67,12 @@ const CardUser = ({ data }: dataPersona) => {
                 <IonCol size="2" className={css.CardUserIconCenter}>
                   <IonIcon
                     className={css.CardUserIcon}
-                    onClick={() => handleView}
+                    onClick={() => handleView(id)}
                     icon={eye}
                   />
                   <IonIcon
                     className={css.CardUserIcon}
-                    onClick={() => handleDelete}
+                    onClick={() => handleDelete(id)}
                     icon={trash}
                   />
                 </IonCol>

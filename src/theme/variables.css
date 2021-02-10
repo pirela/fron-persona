@@ -114,6 +114,11 @@ ion-card-title {
   --color: #007aff;
 }
 
+ion-toast {
+  --background: #007aff;
+  --color: #fff;
+}
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
