@@ -14,39 +14,76 @@ import { eye, trash } from "ionicons/icons";
 
 import css from "./Card.module.css";
 
-const CardUser = ({
-  img,
-  name,
-  handleClick,
-  handleView,
-  handleDelete,
-}: any) => {
+interface persona {
+  img: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  identificacion: string;
+  handleClick: Function;
+  handleView: Function;
+  handleDelete: Function;
+}
+
+interface dataPersona {
+  data: persona[];
+}
+
+const CardUser = ({ data }: dataPersona) => {
+  console.info("datadatadata", data);
   return (
-    <IonCard className={css.CardUser}>
-      <IonGrid className={css.CardUserGrid}>
-        <IonRow>
-          <IonCol size={"4"} onClick={handleClick}>
-            <img src={img} alt="Avatar" className={css.CardUserAvatar} />
-          </IonCol>
-          <IonCol size="6" className={css.CardUserTxt} onClick={handleClick}>
-            <div className={css.CardUserTxtName}>{name}</div>
-            <div className={css.CardUserTxtInfo}>{name}</div>
-          </IonCol>
-          <IonCol size="2" className={css.CardUserIconCenter}>
-            <IonIcon
-              className={css.CardUserIcon}
-              onClick={handleView}
-              icon={eye}
-            />
-            <IonIcon
-              className={css.CardUserIcon}
-              onClick={handleDelete}
-              icon={trash}
-            />
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </IonCard>
+    <div>
+      {data.map(
+        (
+          {
+            img,
+            nombre,
+            email,
+            handleView,
+            handleDelete,
+            handleClick,
+            identificacion,
+            apellido,
+          }: persona,
+          index: number
+        ) => (
+          <IonCard className={css.CardUser}>
+            <IonGrid className={css.CardUserGrid}>
+              <IonRow>
+                <IonCol size={"3"} onClick={() => handleClick}>
+                  <img src={img} alt="Avatar" className={css.CardUserAvatar} />
+                </IonCol>
+                <IonCol
+                  size="7"
+                  className={css.CardUserTxt}
+                  onClick={() => handleClick}
+                >
+                  <div className={css.CardUserTxtName}>
+                    {`${nombre} ${apellido}`}
+                  </div>
+                  <div className={css.CardUserTxtInfo}>
+                    {`${identificacion}`}
+                  </div>
+                  <div className={css.CardUserTxtInfo}>{`${email}`}</div>
+                </IonCol>
+                <IonCol size="2" className={css.CardUserIconCenter}>
+                  <IonIcon
+                    className={css.CardUserIcon}
+                    onClick={() => handleView}
+                    icon={eye}
+                  />
+                  <IonIcon
+                    className={css.CardUserIcon}
+                    onClick={() => handleDelete}
+                    icon={trash}
+                  />
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+          </IonCard>
+        )
+      )}
+    </div>
   );
 };
 

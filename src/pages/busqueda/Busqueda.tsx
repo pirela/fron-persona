@@ -15,21 +15,7 @@ const Busqueda: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen>
         <FiltradoPersona />
-        <CardUser
-          img={
-            "https://www.sabervivirtv.com/medio/2019/02/01/altamente-sensible_4713542c_990x586.jpg"
-          }
-          name="jose pirela"
-          handleClick={() => {
-            console.info("handleClick");
-          }}
-          handleView={() => {
-            console.info("handleView");
-          }}
-          handleDelete={() => {
-            console.info("handleDelete");
-          }}
-        />
+        <CardUser data={[]} />
       </IonContent>
     </IonPage>
   );
